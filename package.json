@@ -1,65 +1,45 @@
 {
-  "name": "wirdreminder",
-  "version": "1.1.1",
-  "description": "A humble companion for your journey with the Holy Quran.",
-  "main": "www/app.js",
+  "name": "monthlyquran",
+  "version": "1.5.2",
+  "description": "A simple web application for tracking Quran memorization using a spaced repetition system. The app helps you follow a 7-station review schedule based on memory retention principles.",
+  "main": "sw.js",
+  "directories": {
+    "doc": "docs"
+  },
   "scripts": {
-    "dev": "vite",
-    "build:web": "vite build",
-    "preview": "vite preview",
-    "postversion": "node scripts/version-sync.js",
-    "sync": "node scripts/sync.js",
+    "sync": "node scripts/sync.js && node scripts/patch-android-plugins.js",
     "build": "node scripts/build.js",
-    "android:refresh": "npm run sync && npx cap run android",
+    "build:extensions": "node scripts/build-extensions.js",
+    "android:run": "npm run sync && ANDROID_HOME=/home/hadi/Android/Sdk npx cap run android",
     "android:build": "cd android && ./gradlew assembleDebug",
     "android:build:release": "cd android && ./gradlew bundleRelease",
     "sign:android": "bash scripts/sign-release-bundle.sh",
     "build:apk:signed": "bash scripts/build-and-sign-apk.sh",
     "open:android": "CAPACITOR_ANDROID_STUDIO_PATH=/opt/android-studio/bin/studio.sh npx cap open android",
-    "tools:icons": "node scripts/generate-icons.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hadealahmad/WirdReminder.git"
+    "url": "git+https://github.com/hadealahmad/MonthlyQuran.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/hadealahmad/WirdReminder/issues"
+    "url": "https://github.com/hadealahmad/MonthlyQuran/issues"
   },
-  "homepage": "https://github.com/hadealahmad/WirdReminder#readme",
+  "homepage": "https://github.com/hadealahmad/MonthlyQuran#readme",
   "dependencies": {
-    "@capacitor/android": "^8.0.1",
+    "@capacitor/android": "^8.0.0",
     "@capacitor/app": "^8.0.0",
-    "@capacitor/background-runner": "^3.0.0",
-    "@capacitor/cli": "^8.0.1",
-    "@capacitor/core": "^8.0.1",
-    "@capacitor/filesystem": "^8.1.2",
+    "@capacitor/cli": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/filesystem": "^8.0.0",
     "@capacitor/local-notifications": "^8.0.0",
-    "@capacitor/share": "^8.0.1",
-    "@radix-ui/react-slot": "^1.2.4",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "framer-motion": "^12.4.3",
-    "i18next": "^25.8.10",
-    "i18next-browser-languagedetector": "^8.2.1",
-    "lucide-react": "^0.475.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-i18next": "^16.5.4",
-    "tailwind-merge": "^3.0.1"
+    "@capacitor/share": "^8.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.7",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.5.2",
-    "tailwindcss": "^4.0.7",
-    "typescript": "^5.7.3",
-    "vite": "^6.1.0"
+    "@capacitor/assets": "^3.0.5"
   }
 }

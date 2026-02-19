@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">مذكّر الورد اليومي</string>
-    <string name="title_activity_main">مذكّر الورد اليومي</string>
-    <string name="package_name">com.hadealahmad.wirdreminder</string>
-    <string name="custom_url_scheme">com.hadealahmad.wirdreminder</string>
+    <string name="app_name">MonthlyQuran</string>
+    <string name="title_activity_main">MonthlyQuran</string>
+    <string name="package_name">com.monthlyquran.app</string>
+    <string name="custom_url_scheme">com.monthlyquran.app</string>
 </resources>

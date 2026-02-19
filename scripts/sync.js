@@ -1,38 +1,54 @@
 const fs = require('fs');
 const path = require('path');
 
-const CORE_DIR = path.join(__dirname, '..', 'core');
-const TARGETS = [
-    path.join(__dirname, '..', 'www', 'core'),
-    path.join(__dirname, '..', 'chrome', 'src', 'core'),
-    path.join(__dirname, '..', 'firefox', 'src', 'core')
+const CORE_DIR = path.resolve(__dirname, '../core');
+const DESTINATIONS = [
+    path.resolve(__dirname, '../chrome/src/core'),
+    path.resolve(__dirname, '../firefox/src/core'),
+    path.resolve(__dirname, '../www/core')
 ];
 
-console.log('🔄 Starting core synchronization...');
-
-function copyRecursiveSync(src, dest) {
-    const exists = fs.existsSync(src);
-    const stats = exists && fs.statSync(src);
-    const isDirectory = exists && stats.isDirectory();
-    if (isDirectory) {
-        if (!fs.existsSync(dest)) {
-            fs.mkdirSync(dest, { recursive: true });
-        }
-        fs.readdirSync(src).forEach((childItemName) => {
-            copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
+function deleteFolderRecursive(directoryPath) {
+    if (fs.existsSync(directoryPath)) {
+        fs.readdirSync(directoryPath).forEach((file, index) => {
+            const curPath = path.join(directoryPath, file);
+            if (fs.lstatSync(curPath).isDirectory()) {
+                deleteFolderRecursive(curPath);
+            } else {
+                fs.unlinkSync(curPath);
+            }
         });
-    } else {
-        fs.copyFileSync(src, dest);
+        fs.rmdirSync(directoryPath);
     }
 }
 
-TARGETS.forEach(target => {
-    console.log(`  >> Syncing to ${path.relative(path.join(__dirname, '..'), target)}...`);
-    if (fs.existsSync(target)) {
-        fs.rmSync(target, { recursive: true, force: true });
+function copyFolderRecursiveSync(source, target) {
+    let files = [];
+    const targetFolder = target;
+    if (!fs.existsSync(targetFolder)) {
+        fs.mkdirSync(targetFolder, { recursive: true });
     }
-    copyRecursiveSync(CORE_DIR, target);
-    console.log(`  ✅ Done.`);
+
+    if (fs.lstatSync(source).isDirectory()) {
+        files = fs.readdirSync(source);
+        files.forEach(function (file) {
+            const curSource = path.join(source, file);
+            const curTarget = path.join(targetFolder, file);
+            if (fs.lstatSync(curSource).isDirectory()) {
+                copyFolderRecursiveSync(curSource, curTarget);
+            } else {
+                fs.copyFileSync(curSource, curTarget);
+            }
+        });
+    }
+}
+
+console.log('Starting Core Synchronization...');
+
+DESTINATIONS.forEach(dest => {
+    console.log(`Syncing to: ${dest}`);
+    deleteFolderRecursive(dest);
+    copyFolderRecursiveSync(CORE_DIR, dest);
 });
 
-console.log('🎉 All platforms synchronized.');
+console.log('Synchronization Complete!');

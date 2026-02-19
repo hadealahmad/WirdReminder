@@ -1,11 +1,12 @@
 {
-  "appId": "com.hadealahmad.wirdreminder",
-  "appName": "مذكّر الورد اليومي",
+  "appId": "com.monthlyquran.app",
+  "appName": "MonthlyQuran",
   "webDir": "www",
-  "plugins": {
-    "LocalNotifications": {
-      "smallIcon": "ic_stat_notification",
-      "iconColor": "#2E7D32"
-    }
+  "android": {
+    "webContentsDebuggingEnabled": false,
+    "allowMixedContent": true
+  },
+  "server": {
+    "cleartext": false
   }
 }

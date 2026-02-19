@@ -1,0 +1,10 @@
+{
+    "extensionName": {
+        "message": "Monthly Quran - Memorization Tracker",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Track your Quran memorization using a 7-station spaced repetition system. Private, secure, and fully offline.",
+        "description": "Description of the extension"
+    }
+}

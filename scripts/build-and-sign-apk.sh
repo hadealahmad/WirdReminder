@@ -54,6 +54,13 @@ fi
 
 # 3. Sign
 echo "✍️  Signing APK..."
+# Current keystore setup requires prompting for password usually, 
+# but apksigner takes password from stdin or arg.
+# We will let it prompt interactively if possible, but in this agent environment interaction is tricky.
+# However, the previous script `sign-release-bundle.sh` said: "You will be prompted for your keystore password."
+# jarsigner prompts. apksigner also prompts.
+# If I run this via `run_command`, the user can input the password.
+
 echo "⚠️  You will be prompted for your keystore password."
 
 rm -f "$SIGNED_APK" # Remove if exists

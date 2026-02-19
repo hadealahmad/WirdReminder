@@ -1,45 +1,39 @@
 {
-  "manifest_version": 3,
-  "name": "مذكّر الورد اليومي",
-  "version": "1.1.1",
-  "description": "مُذكِّر الوِرد اليومي - يساعدك على المداومة على ورد القرآن اليومي مع تذكيرات ذكية. مجاني، مفتوح المصدر، وبدون أي جمع بيانات.",
-  "permissions": [
-    "alarms",
-    "storage",
-    "notifications"
-  ],
-  "host_permissions": [
-    "https://api.quran.com/*"
-  ],
-  "background": {
-    "scripts": [
-      "src/lib/browser-polyfill.js",
-      "src/background/background.js"
-    ],
-    "type": "module"
-  },
-  "action": {
-    "default_popup": "src/popup/popup.html",
-    "default_icon": {
-      "16": "src/core/assets/icons/icon16.png",
-      "48": "src/core/assets/icons/icon48.png",
-      "128": "src/core/assets/icons/icon128.png"
-    }
-  },
-  "icons": {
-    "16": "src/core/assets/icons/icon16.png",
-    "48": "src/core/assets/icons/icon48.png",
-    "128": "src/core/assets/icons/icon128.png"
-  },
+  "manifest_version": 2,
+  "name": "__MSG_extensionName__",
+  "short_name": "Monthly Quran",
+  "version": "1.5.2",
+  "description": "__MSG_extensionDescription__",
   "browser_specific_settings": {
     "gecko": {
-      "id": "wird-reminder@hadealahmad.com",
-      "strict_min_version": "142.0",
+      "id": "itqan-monthly-quran@hadealahmad.com",
+      "strict_min_version": "115.0",
       "data_collection_permissions": {
         "required": [
           "none"
         ]
       }
     }
-  }
+  },
+  "browser_action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png"
+    },
+    "default_title": "Monthly Quran"
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
+  },
+  "permissions": [
+    "storage",
+    "https://api.alquran.cloud/*"
+  ],
+  "default_locale": "en"
 }

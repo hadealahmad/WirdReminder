@@ -1,370 +1,561 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>مذكّر الورد اليومي - Wird Reminder</title>
-    <meta name="description"
-        content="إضافة مجانية للمتصفح تساعدك على المحافظة على ورد القرآن الكريم يومياً بتذكيرات ذكية وقارئ مصحف جميل.">
-
-    <!-- Same fonts as the extension -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&display=swap"
-        rel="stylesheet">
-    
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- Base Styles (React/Tailwind) are handled by main.tsx -->
-    <!-- Legacy Styles (App only) -->
-    <link rel="stylesheet" href="styles.css" id="legacy-styles" disabled>
+    <meta name="description" content="Quran Memorization Tracker - Spaced Repetition System">
+    <meta name="theme-color" content="#0f172a">
+    <title>Monthly Quran - Memorization Tracker</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="core/assets/icons/icon48.png">
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+    <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
 
-    <!-- PWA -->
+    <!-- Fonts -->
+    <link rel="stylesheet" href="core/css/fonts.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="core/css/themes.css">
+    <link rel="stylesheet" href="core/css/components.css">
+    <link rel="stylesheet" href="core/css/styles.css">
+    <link rel="stylesheet" href="core/css/navigation.css">
+
+    <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#10b981">
-    <link rel="apple-touch-icon" href="core/assets/icons/icon128.png">
-
-    <style>
-        /* Conditional Visibility */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        body.is-app {
-            overflow: hidden;
-        }
-
-        /* If we are in mobile/capacitor, we hide the React root */
-        body.is-app #root {
-            display: none !important;
-        }
-
-        /* If we are NOT in mobile, we hide the app container by default (React manages landing) */
-        body:not(.is-app) #app-container, 
-        body:not(.is-app) #reader-view {
-            display: none !important;
-        }
-
-        #root {
-            width: 100%;
-            min-height: 100vh;
-        }
-    </style>
 </head>
 
 <body>
-    <!-- 1. React Landing Page Mount Point -->
-    <div id="root"></div>
+    <div id="app">
+        <!-- Setup View (shown when no config exists) -->
+        <div id="setup-view" class="view hidden">
+            <main class="main">
+                <div class="container">
+                    <div class="card">
+                        <h1 class="card-title" data-i18n="app.title">Monthly Quran</h1>
+                        <p class="card-description" data-i18n="setup.title">Set up your memorization plan</p>
 
-    <!-- 2. Extension App Container (Standalone / Android / Extension) -->
-    <div class="app-container" id="app-container">
-        <!-- Header -->
-        <header>
-            <div class="logo-area">
-                <img src="core/assets/icons/icon48.png" alt="Wird Logo">
-                <h1>مُذكِّر الوِرد اليومي</h1>
-            </div>
-        </header>
-
-    
-        <!-- Content -->
-        <main class="content">
-            <!-- Tab: Reminders -->
-            <section id="reminders-tab" class="tab-content active">
-                <h2 class="section-title">قائمتي</h2>
-                <div id="my-reminders-list">
-                    <!-- Populated by JS -->
-                </div>
-
-                <div class="divider"></div>
-
-                <h2 class="section-title">تذكيرات السنن</h2>
-                <div id="presets-list">
-                    <!-- Populated by JS -->
-                </div>
-            </section>
-
-            <!-- Tab: Add New -->
-            <section id="add-new" class="tab-content">
-                <form id="add-reminder-form">
-                    <input type="hidden" id="edit-id" value="">
-
-                    <div class="form-item">
-                        <label class="label">نوع التذكير</label>
-                        <select id="reminder-type" class="input">
-                            <option value="surah">سورة كاملة</option>
-                            <option value="ayah_range">آيات محددة</option>
-                            <option value="juz">جزء من القرآن</option>
-                        </select>
-                    </div>
-
-                    <div class="form-item">
-                        <label class="label">اختر الهدف</label>
-                        <select id="target-select" class="input">
-                            <option value="" disabled selected>جاري التحميل...</option>
-                        </select>
-                    </div>
-
-                    <div id="ayah-range-group" style="display:none;" class="form-item">
-                        <div style="display: flex; gap: 0.5rem;">
-                            <div style="flex: 1;">
-                                <label class="label" style="font-size: 0.7rem;">من آية</label>
-                                <input type="number" id="start-ayah" class="input" placeholder="1" min="1">
+                        <form id="setup-form">
+                            <div class="form-group">
+                                <label for="surah-preset" data-i18n="setup.surahPreset">Big Surahs Preset
+                                    (Optional)</label>
+                                <select id="surah-preset" class="input">
+                                    <option value="" data-i18n="setup.surahPresetNone">None</option>
+                                </select>
                             </div>
-                            <div style="flex: 1;">
-                                <label class="label" style="font-size: 0.7rem;">إلى آية</label>
-                                <input type="number" id="end-ayah" class="input" placeholder="5" min="1">
+
+                            <div class="setup-toggles">
+                                <div class="setup-toggle-group">
+                                    <div class="toggle-options" id="unit-type-toggle" role="group"
+                                        aria-label="Unit Type">
+                                        <button type="button" class="toggle-option" data-value="page"
+                                            data-i18n="units.page">Page</button>
+                                        <button type="button" class="toggle-option" data-value="verse"
+                                            data-i18n="units.verse">Ayah</button>
+                                        <button type="button" class="toggle-option" data-value="quarter_hizb"
+                                            data-i18n="units.quarter_hizb">Quarter</button>
+                                        <button type="button" class="toggle-option" data-value="hizb"
+                                            data-i18n="units.hizb">Hizb</button>
+                                        <button type="button" class="toggle-option" data-value="juz"
+                                            data-i18n="units.juz">Juz</button>
+                                    </div>
+                                </div>
+
+                                <div class="setup-toggle-group">
+                                    <div class="toggle-options" id="setup-language-toggle" role="group"
+                                        aria-label="Language">
+                                        <button type="button" class="toggle-option" data-value="en">EN</button>
+                                        <button type="button" class="toggle-option" data-value="ar">AR</button>
+                                    </div>
+                                </div>
+
+                                <div class="setup-toggle-group">
+                                    <div class="toggle-options" id="setup-theme-toggle" role="group" aria-label="Theme">
+                                        <button type="button" class="toggle-option" data-value="light"
+                                            data-i18n="theme.light">Light</button>
+                                        <button type="button" class="toggle-option" data-value="dark"
+                                            data-i18n="theme.dark">Dark</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="start-page-group" style="display: none;">
+                                <label for="start-page" data-i18n="setup.startPage">Start Page Number</label>
+                                <input type="number" id="start-page" class="input" min="1" max="604" value="1">
+                            </div>
+
+                            <div class="form-group" id="custom-unit-size-group" style="display: none;" role="group" aria-labelledby="unit-size-pages-label">
+                                <label id="unit-size-pages-label" data-i18n="setup.customUnitSize">Unit Size (pages)</label>
+                                <p class="form-hint" style="font-size: 0.875rem; color: var(--muted-fg); margin: 0.25rem 0 0.75rem 0;" data-i18n="setup.customUnitSizeDescription">How many pages per unit?</p>
+                                <div class="setup-toggles">
+                                    <div class="setup-toggle-group">
+                                        <div class="toggle-options unit-size-options" id="unit-size-toggle" role="group" aria-label="Unit Size">
+                                            <button type="button" class="toggle-option" data-value="0.5">0.5</button>
+                                            <button type="button" class="toggle-option" data-value="1">1</button>
+                                            <button type="button" class="toggle-option" data-value="1.5">1.5</button>
+                                            <button type="button" class="toggle-option" data-value="2">2</button>
+                                            <button type="button" class="toggle-option" data-value="2.5">2.5</button>
+                                            <button type="button" class="toggle-option" data-value="3">3</button>
+                                            <button type="button" class="toggle-option" data-value="3.5">3.5</button>
+                                            <button type="button" class="toggle-option" data-value="custom" data-i18n="setup.unitSizeCustom">Custom</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="custom-unit-size-input-wrap" class="form-group unit-size-custom-field" style="display: none;">
+                                    <label for="custom-unit-size" data-i18n="setup.unitSizeCustomValueLabel">Pages</label>
+                                    <input type="number" id="custom-unit-size" class="input" min="0.5" max="10" step="0.5" value="1" placeholder="e.g. 4" data-i18n="setup.unitSizeCustomPlaceholder">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="total-units" id="total-units-label" data-i18n="setup.totalUnits">Total
+                                    Units</label>
+                                <p class="form-hint" id="total-units-hint" style="font-size: 0.875rem; color: var(--muted-fg); margin: 0.25rem 0 0.75rem 0;" data-i18n="setup.totalUnitsDescription">Total number of units in this progression</p>
+                                <div class="number-input-group">
+                                    <button type="button" class="number-input-btn" id="total-units-decrease"
+                                        aria-label="Decrease">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                    <input type="number" id="total-units" class="input number-input" min="1" value="30"
+                                        required>
+                                    <button type="button" class="number-input-btn" id="total-units-increase"
+                                        aria-label="Increase">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="start-date" data-i18n="setup.startDate">Start Date</label>
+                                <input type="date" id="start-date" class="input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="progression-name" data-i18n="setup.progressionName">Progression Name</label>
+                                <input type="text" id="progression-name" class="input"
+                                    placeholder="e.g. Juz 1, Surah Al-Baqarah" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-default btn-full"
+                                data-i18n="setup.startButton">Start Memorization</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Today View (main view) -->
+        <div id="today-view" class="view hidden">
+            <header class="header">
+                <div class="header-content">
+                    <h1 class="header-title" data-i18n="app.title">Monthly Quran</h1>
+                    <div class="header-actions">
+                        <button id="language-toggle" class="btn-icon" data-i18n-aria="aria.toggleLanguage">
+                            <span class="lang-text">EN</span>
+                        </button>
+                        <button id="theme-toggle" class="btn-icon" data-i18n-aria="aria.toggleTheme">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <path
+                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main">
+                <div class="container">
+                    <div id="today-stats" class="today-stats"></div>
+                    <div id="today-tasks" class="today-tasks"></div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Progress View -->
+        <div id="progress-view" class="view hidden">
+            <header class="header">
+                <div class="header-content">
+                    <h1 class="header-title" data-i18n="progress.title">Memorization Progress</h1>
+                    <div class="header-actions">
+                        <button id="progress-add-btn" class="btn-icon" data-i18n-aria="progress.addNew" title="Add New">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </button>
+                        <button id="language-toggle-progress" class="btn-icon" data-i18n-aria="aria.toggleLanguage">
+                            <span class="lang-text">EN</span>
+                        </button>
+                        <button id="theme-toggle-progress" class="btn-icon" data-i18n-aria="aria.toggleTheme">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <path
+                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main">
+                <div class="container">
+                    <div id="progress-timeline" class="progress-timeline"></div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Calendar View -->
+        <div id="calendar-view" class="view hidden">
+            <header class="header">
+                <div class="header-content">
+                    <h1 class="header-title" data-i18n="nav.calendar">Calendar</h1>
+                    <div class="header-actions">
+                        <button id="language-toggle-calendar" class="btn-icon" data-i18n-aria="aria.toggleLanguage">
+                            <span class="lang-text">EN</span>
+                        </button>
+                        <button id="theme-toggle-calendar" class="btn-icon" data-i18n-aria="aria.toggleTheme">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <path
+                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main">
+                <div class="container">
+                    <div class="calendar-header">
+                        <button id="calendar-prev-month" class="btn-icon" data-i18n-aria="calendar.previousMonth">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 18l-6-6 6-6"></path>
+                            </svg>
+                        </button>
+                        <h2 id="calendar-month-year" class="calendar-title"></h2>
+                        <button id="calendar-next-month" class="btn-icon" data-i18n-aria="calendar.nextMonth">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18l6-6-6-6"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="calendar-legend">
+                        <div class="legend-item">
+                            <span class="legend-indicator legend-new"></span>
+                            <span data-i18n="calendar.legendNew">New Memorization</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-indicator legend-yesterday"></span>
+                            <span data-i18n="calendar.legendYesterday">Yesterday's Review</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-indicator legend-spaced"></span>
+                            <span data-i18n="calendar.legendSpaced">Spaced Review</span>
+                        </div>
+                    </div>
+                    <div class="calendar-filters">
+                        <select id="calendar-progression-filter" class="calendar-filter-select">
+                            <option value="all" data-i18n="calendar.filterAll">All Progressions</option>
+                        </select>
+                    </div>
+                    <div id="calendar-grid" class="calendar-grid"></div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Settings View -->
+        <div id="settings-view" class="view hidden">
+            <header class="header">
+                <div class="header-content">
+                    <h1 class="header-title" data-i18n="settings.title">Settings</h1>
+                    <div class="header-actions">
+                        <button id="language-toggle-settings" class="btn-icon" data-i18n-aria="aria.toggleLanguage">
+                            <span class="lang-text">EN</span>
+                        </button>
+                        <button id="theme-toggle-settings" class="btn-icon" data-i18n-aria="aria.toggleTheme">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <path
+                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main">
+                <div class="container">
+                    <div class="card">
+                        <h1 class="card-title" data-i18n="settings.title">Settings</h1>
+                        <p class="card-description" data-i18n="settings.configuration">Configuration</p>
+
+                        <form id="settings-form">
+                            <div class="setup-toggles">
+                                <div class="setup-toggle-group">
+                                    <label data-i18n="setup.language">Language</label>
+                                    <div class="toggle-options" id="settings-language-toggle" role="group"
+                                        aria-label="Language">
+                                        <button type="button" class="toggle-option" data-value="en">EN</button>
+                                        <button type="button" class="toggle-option" data-value="ar">AR</button>
+                                    </div>
+                                </div>
+
+                                <div class="setup-toggle-group">
+                                    <label data-i18n="theme.light">Theme</label>
+                                    <div class="toggle-options" id="settings-theme-toggle" role="group"
+                                        aria-label="Theme">
+                                        <button type="button" class="toggle-option" data-value="light"
+                                            data-i18n="theme.light">Light</button>
+                                        <button type="button" class="toggle-option" data-value="dark"
+                                            data-i18n="theme.dark">Dark</button>
+                                    </div>
+                                </div>
+
+                                <div class="setup-toggle-group">
+                                    <label data-i18n="settings.transitions">Animated Transitions</label>
+                                    <div class="toggle-options" id="settings-transitions-toggle" role="group"
+                                        aria-label="Animated Transitions">
+                                        <button type="button" class="toggle-option" data-value="true"
+                                            data-i18n="common.on">On</button>
+                                        <button type="button" class="toggle-option" data-value="false"
+                                            data-i18n="common.off">Off</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="settings-morning-hour" data-i18n="settings.morningHour">Morning Review
+                                    Hour</label>
+                                <input type="time" id="settings-morning-hour" class="input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="settings-evening-hour" data-i18n="settings.eveningHour">Evening Review
+                                    Hour</label>
+                                <input type="time" id="settings-evening-hour" class="input" required>
+                            </div>
+
+                            <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                                <button type="button" id="settings-privacy-btn" class="btn btn-outline btn-full"
+                                    style="margin-bottom: 0.75rem;" data-i18n="privacy.title">Privacy Policy</button>
+                                <button type="button" id="settings-export-btn" class="btn btn-outline btn-full"
+                                    data-i18n="settings.exportData">Export Data</button>
+                                <button type="button" id="settings-import-btn" class="btn btn-outline btn-full"
+                                    data-i18n="settings.importData">Import Data</button>
+                                <button type="button" id="settings-reset-btn" class="btn btn-destructive btn-full"
+                                    data-i18n="settings.resetApp">Reset Application</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Credits View -->
+        <div id="credits-view" class="view hidden">
+            <header class="header">
+                <div class="header-content">
+                    <h1 class="header-title" data-i18n="credits.title">Credits</h1>
+                    <div class="header-actions">
+                        <button id="language-toggle-credits" class="btn-icon" data-i18n-aria="aria.toggleLanguage">
+                            <span class="lang-text">EN</span>
+                        </button>
+                        <button id="theme-toggle-credits" class="btn-icon" data-i18n-aria="aria.toggleTheme">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <path
+                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main">
+                <div class="container">
+                    <div class="card">
+                        <div class="credits-content">
+                            <h2 class="credits-name" data-i18n="credits.name">د. وفاء عرابي</h2>
+                            <p class="credits-role" data-i18n="credits.role">Memorization Algorithm Creator</p>
+
+                            <div class="credits-section">
+                                <h3 data-i18n="credits.algorithmTitle">About the Algorithm</h3>
+                                <p class="credits-text" data-i18n="credits.algorithmDescription"></p>
+                            </div>
+
+                            <div class="credits-section">
+                                <h3 data-i18n="credits.methodologyTitle">The Methodology</h3>
+                                <p class="credits-text" data-i18n="credits.methodologyDescription"></p>
+                            </div>
+
+                            <div class="credits-section">
+                                <h3 data-i18n="credits.contactTitle">Contact</h3>
+                                <p class="credits-text">
+                                    <a href="https://t.me/wafaa_oraby_coach?brid=ak3J5PSbaH3uyBc26nhbaw" target="_blank"
+                                        rel="noopener noreferrer" class="credits-link"
+                                        data-i18n="credits.telegramLink">Visit Telegram Channel</a>
+                                </p>
                             </div>
                         </div>
                     </div>
+                </div>
+            </main>
+        </div>
 
-                    <div class="form-item">
-                        <label class="label">اسم التذكير</label>
-                        <input type="text" id="reminder-name" placeholder="مثال: ورد الفجر" class="input">
-                    </div>
-
-                    <div style="display: flex; gap: 0.75rem;" class="form-item">
-                        <div style="flex: 1.5;">
-                            <label class="label">التكرار</label>
-                            <select id="frequency" class="input">
-                                <option value="daily">يومياً</option>
-                                <option value="weekly">أسبوعياً</option>
-                            </select>
-                        </div>
-                        <div style="flex: 1;">
-                            <label class="label">الوقت</label>
-                            <input type="time" id="time-select" class="input" value="08:00">
-                        </div>
-                    </div>
-
-                    <div class="form-item" id="day-select-group" style="display:none;">
-                        <label class="label">اليوم</label>
-                        <select id="day-select" class="input">
-                            <option value="5">الجمعة</option>
-                            <option value="6">السبت</option>
-                            <option value="0">الأحد</option>
-                            <option value="1">الاثنين</option>
-                            <option value="2">الثلاثاء</option>
-                            <option value="3">الأربعاء</option>
-                            <option value="4">الخميس</option>
-                        </select>
-                    </div>
-
-                    <div class="submit-area">
-                        <button type="submit" id="submit-btn" class="btn btn-primary btn-xl">حفظ
-                            التذكير</button>
-                        <button type="button" id="cancel-edit-btn" class="btn btn-outline btn-xl"
-                            style="display:none; margin-top:0.5rem;">إلغاء التعديل</button>
-                    </div>
-                </form>
-            </section>
-
-            <!-- Tab: Settings -->
-            <section id="settings-tab" class="tab-content">
-                <h2 class="section-title">النسخ الاحتياطي</h2>
-                <div class="settings-group">
-                    <p class="settings-description">يمكنك تصدير بياناتك لحفظها أو نقلها إلى جهاز آخر.</p>
-                    <button id="export-data" class="btn btn-primary btn-xl">
-                        📤 تصدير البيانات
+        <!-- Privacy Policy View -->
+        <div id="privacy-view" class="view hidden">
+            <header class="header">
+                <div class="header-content">
+                    <button id="privacy-back-btn" class="btn-icon" data-i18n-aria="settings.back">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                        </svg>
                     </button>
-                    <button id="import-data" class="btn btn-outline btn-xl">
-                        📥 استيراد البيانات
-                    </button>
-                    <input type="file" id="import-file-input" accept=".json" style="display:none;">
+                    <h1 class="header-title" data-i18n="privacy.title">Privacy Policy</h1>
+                    <div style="width: 40px;"></div> <!-- Spacer -->
                 </div>
+            </header>
 
-                <div class="divider"></div>
+            <main class="main">
+                <div class="container">
+                    <div class="card">
+                        <div class="credits-content">
+                            <h2 class="credits-name" data-i18n="privacy.title">Privacy Policy</h2>
+                            <p class="credits-role" data-i18n="privacy.lastUpdated">Last updated: December 2025</p>
 
-                <h2 class="section-title">إدارة البيانات</h2>
-                <div class="settings-group">
-                    <p class="settings-description">حذف سجل الإنجاز فقط مع الاحتفاظ بالتذكيرات.</p>
-                    <button id="clear-history" class="btn btn-outline btn-xl">
-                        🗑️ مسح سجل الإنجاز
-                    </button>
-                </div>
+                            <div class="credits-section">
+                                <h3 data-i18n="privacy.storageTitle">Data Storage</h3>
+                                <p class="credits-text" data-i18n="privacy.storageText">
+                                    This application is designed with an "Offline First" philosophy.
+                                    All your memorization data, settings, and progress are stored exclusively
+                                    on your device using LocalStorage/IndexedDB technologies.
+                                </p>
+                            </div>
 
-                <div class="divider"></div>
+                            <div class="credits-section">
+                                <h3 data-i18n="privacy.collectionTitle">Data Collection</h3>
+                                <p class="credits-text" data-i18n="privacy.collectionText">
+                                    We do not collect, transmit, or store any of your personal data on external servers.
+                                    No analytics or tracking cookies are used within this application.
+                                </p>
+                            </div>
 
-                <h2 class="section-title" style="color: hsl(var(--destructive));">منطقة الخطر</h2>
-                <div class="settings-group danger-zone">
-                    <p class="settings-description">إعادة ضبط الإضافة بالكامل وحذف جميع البيانات.</p>
-                    <button id="reset-extension" class="btn btn-xl"
-                        style="background-color: hsl(var(--destructive)); color: white;">
-                        ⚠️ إعادة ضبط الإضافة
-                    </button>
-                </div>
-            </section>
-
-            <!-- Tab: Downloads (PWA specific) -->
-            <section id="downloads-tab" class="tab-content">
-                <h2 class="section-title">حمّل الإضافة والتطبيق</h2>
-                <p class="settings-description">احصل على التجربة الكاملة مع الإشعارات المجدولة على جميع أجهزتك.</p>
-
-                <div class="downloads-list"
-                    style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
-                    <a href="https://chromewebstore.google.com/detail/%D8%A7%D9%84%D9%88%D8%B1%D8%AF-%D8%A7%D9%84%D9%8A%D9%88%D9%85%D9%8A/pgogfohfgohkfpfifdojhmladlaeceok"
-                        target="_blank" class="download-btn-mini">
-                        <span class="browser-icon">🌐</span>
-                        <div class="download-text">
-                            <span class="browser-name">Chrome Extension</span>
-                            <span class="browser-desc">إضافة متصفح كروم</span>
+                            <div class="credits-section">
+                                <h3 data-i18n="privacy.internetTitle">Internet Usage</h3>
+                                <p class="credits-text" data-i18n="privacy.internetText">
+                                    Internet connection is only used for:
+                                </p>
+                                <ul class="credits-text" style="list-style-type: disc; margin-inline-start: 1.5rem;">
+                                    <li data-i18n="privacy.internetItem1">Initial download of Quran metadata/text</li>
+                                    <li data-i18n="privacy.internetItem2">Playing Quran audio recitations</li>
+                                    <li data-i18n="privacy.internetItem3">Updating the application</li>
+                                </ul>
+                            </div>
                         </div>
-                    </a>
-                    <a href="https://addons.mozilla.org/en-US/firefox/addon/%D8%A7%D9%84%D9%88%D8%B1%D8%AF-%D8%A7%D9%84%D9%8A%D9%88%D9%85%D9%8A/"
-                        target="_blank" class="download-btn-mini">
-                        <span class="browser-icon">🦊</span>
-                        <div class="download-text">
-                            <span class="browser-name">Firefox Add-on</span>
-                            <span class="browser-desc">إضافة متصفح فايرفوكس</span>
-                        </div>
-                    </a>
+                    </div>
                 </div>
-            </section>
-        </main>
-        <!-- Bottom Navigation Bar -->
-        <div class="tabs-nav bottom-tabs">
-            <button class="tab-trigger active" data-tab="reminders-tab">
-                <i class="bi bi-card-checklist"></i>
-                <span>التذكيرات</span>
+            </main>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav id="bottom-nav" class="bottom-nav">
+            <button class="nav-tab" data-view="today-view" id="nav-today">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                    <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"></path>
+                </svg>
+                <span class="nav-label" data-i18n="nav.today">Today</span>
             </button>
-            <button class="tab-trigger" data-tab="add-new">
-                <i class="bi bi-plus-circle"></i>
-                <span>إضافة</span>
+            <button class="nav-tab" data-view="progress-view" id="nav-progress">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                <span class="nav-label" data-i18n="nav.progress">Progress</span>
             </button>
-            <button class="tab-trigger" data-tab="settings-tab">
-                <i class="bi bi-gear-wide-connected"></i>
-                <span>الإعدادات</span>
+            <button class="nav-tab" data-view="calendar-view" id="nav-calendar">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span class="nav-label" data-i18n="nav.calendar">Calendar</span>
             </button>
-            <button class="tab-trigger" id="pwa-downloads-trigger" data-tab="downloads-tab" style="display: none;">
-                <i class="bi bi-cloud-arrow-down"></i>
-                <span>التحميل</span>
+            <button class="nav-tab" data-view="settings-view" id="nav-settings">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.47a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.39a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+                    </path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span class="nav-label" data-i18n="nav.settings">Settings</span>
             </button>
-        </div>
-
+            <button class="nav-tab" data-view="credits-view" id="nav-credits">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                </svg>
+                <span class="nav-label" data-i18n="nav.credits">Credits</span>
+            </button>
+        </nav>
     </div>
 
-    <!-- Reader View (Hidden by default) -->
-    <div class="reader-view" id="reader-view" style="display:none;">
-        <div class="reader-header">
-            <button class="back-btn" id="back-btn">← العودة</button>
-            <span id="reader-title">سورة الفاتحة</span>
-        </div>
-        <div class="reader-content" id="reader-content">
-            <!-- Verses rendered here -->
-        </div>
-        <div class="reader-footer">
-            <button class="btn btn-primary btn-xl" id="mark-read-btn">✓ تحديد كمقروء</button>
-        </div>
-    </div>
+    <!-- Scripts -->
+    <script src="core/js/env.js"></script>
+    <script src="core/js/constants.js"></script>
+    <script src="core/js/utils/logger.js"></script>
+    <script src="core/js/utils/svg.js"></script>
+    <script src="core/js/utils/debounce.js"></script>
+    <script src="core/js/adapter/storage.js"></script>
+    <script src="core/js/storage.js"></script>
+    <script src="core/js/quran-api.js"></script>
+    <script src="core/js/algorithm.js"></script>
+    <script src="core/js/i18n.js"></script>
+    <script src="core/js/theme.js"></script>
+    <script src="core/js/dialog.js"></script>
+    <script src="core/js/components.js"></script>
+    <script src="core/js/calendar.js"></script>
+    <script src="core/js/ui.js"></script>
+    <script src="core/js/adapter/notifications.js"></script>
+    <script src="core/js/app.js"></script>
 
-    <!-- Calendar Modal -->
-    <div id="calendar-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-content calendar-modal">
-            <div class="calendar-header">
-                <button id="calendar-prev" class="btn btn-ghost calendar-nav">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
-                <h3 id="calendar-title" class="modal-title"></h3>
-                <button id="calendar-next" class="btn btn-ghost calendar-nav">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-            </div>
-            <div id="calendar-reminder-name" class="calendar-reminder-name"></div>
-            <div class="calendar-weekdays">
-                <span>أحد</span>
-                <span>اثن</span>
-                <span>ثلث</span>
-                <span>أربع</span>
-                <span>خمس</span>
-                <span>جمع</span>
-                <span>سبت</span>
-            </div>
-            <div id="calendar-grid" class="calendar-grid"></div>
-            <div class="calendar-legend">
-                <div class="legend-item">
-                    <span class="legend-icon completed">✓</span>
-                    <span>مُنجز</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-icon missed"></span>
-                    <span>غير مُنجز</span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="calendar-close" class="btn btn-primary btn-xl">إغلاق</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modals -->
-    <div id="delete-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <h3 class="modal-title">تأكيد الحذف</h3>
-            <p class="modal-description">هل أنت متأكد من رغبتك في حذف هذا التذكير؟ لا يمكن التراجع عن هذه الخطوة.</p>
-            <div class="modal-footer">
-                <button id="cancel-delete" class="btn btn-outline">إلغاء</button>
-                <button id="confirm-delete" class="btn btn-primary"
-                    style="background-color: hsl(var(--destructive));">حذف</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="alert-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <h3 id="alert-title" class="modal-title">تنبيه</h3>
-            <p id="alert-message" class="modal-description"></p>
-            <div class="modal-footer">
-                <button id="alert-ok" class="btn btn-primary">موافق</button>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- App Logic Initialization -->
+    <!-- Service Worker Registration -->
     <script>
-        // Environmental Check
-        const isCapacitor = !!window.Capacitor && window.Capacitor.getPlatform() !== 'web';
-        if (isCapacitor) {
-            document.body.classList.add('is-app');
-            // Enable legacy styles for the app
-            document.getElementById('legacy-styles').disabled = false;
-            // Show app container immediately on native
-            const app = document.getElementById('app-container');
-            if (app) app.style.display = 'flex';
-        } else {
-            // On web, ensure legacy styles are disabled to prevent conflicts
-            document.getElementById('legacy-styles').disabled = true;
-        }
-    </script>
-    
-    <!-- React Entry (Landing Page) -->
-    <script src="app/main.tsx" type="module"></script>
-    
-    <!-- Extension Logic (Android App / Browser Popup) -->
-    <script src="app.js" type="module"></script>
-
-    <!-- SW Registration (Web only) -->
-    <script>
-        if (!isCapacitor && 'serviceWorker' in navigator) {
+        if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker registered', reg))
-                    .catch(err => console.log('Service Worker NOT registered', err));
+                    .then(reg => {
+                        // Suppress console log in production if desired
+                        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                            console.log('SW registered');
+                        }
+                    })
+                    .catch(err => {
+                        if (typeof Logger !== 'undefined') {
+                            Logger.error('SW registration failed:', err);
+                        } else {
+                            console.error('SW registration failed:', err);
+                        }
+                    });
             });
         }
     </script>

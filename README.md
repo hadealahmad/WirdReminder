@@ -1,114 +1,117 @@
-# مُذكِّر الوِرد اليومي - Wird Reminder
+# Monthly Quran
 
-A humble companion for your journey with the Holy Quran. **Wird Reminder** is a cross-platform application (Chrome, Firefox, PWA, and Android) designed to help you maintain a consistent daily or weekly Quran reading habit through gentle reminders and a beautiful reading experience.
-
----
-
-## 🌟 What is Wird Reminder?
-
-In our busy lives, consistency can be a challenge. This project was born out of a simple need: a tool that stays out of the way but reminds us of our most important daily goal—connecting with the Words of Allah.
-
-We've tried to make it as simple, privacy-focused, and beautiful as possible. It is completely free, open-source, and contains no advertisements.
-
-## ✨ Key Features
-
-- **Cross-Platform**: Available as a Browser Extension (Chrome/Firefox), a Progressive Web App (PWA), and a Native Android App.
-- **Personalized Reminders**: Set goals for specific Surahs, Ayah ranges, or an entire Juz.
-- **Smart Scheduling**: Choose between daily reminders or weekly sessions (like Surah Al-Kahf on Fridays).
-- **Beautiful Reader**: A focused, Mushaf-style reading view using the traditional Uthmani script.
-- **Progress Tracking**: A simple calendar view to visualize your consistency and history.
-- **Smart Bookmarking**: Remembers exactly where you left off in each wird across your sessions.
-- **Privacy-First**: All your data—reminders, bookmarks, and history—stays strictly on your local machine.
-- **Offline Capable**: Works without an internet connection once the Quran text is cached.
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=com.monthlyquran.app">
+    <img src="https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white" alt="Get it on Google Play" height="50">
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://chromewebstore.google.com/detail/djhcclihfkoijibblmhgfoomibieokma?utm_source=item-share-cb">
+    <img src="https://img.shields.io/badge/Chrome_Web_Store-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Available on Chrome Web Store" height="50">
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/monthly-quran-%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86-%D8%A7%D9%84%D8%B4%D9%87%D8%B1%D9%8A/">
+    <img src="https://img.shields.io/badge/Firefox_Add--ons-FF7139?style=for-the-badge&logo=firefox-browser&logoColor=white" alt="Get the Firefox Add-on" height="50">
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://hadealahmad.github.io/MonthlyQuran/">
+    <img src="https://img.shields.io/badge/Web_App-0078D4?style=for-the-badge&logo=pwa&logoColor=white" alt="Open Web App" height="50">
+  </a>
+</p>
 
 ---
 
-## 🏗️ Multi-Platform Architecture
+A simple, cross-platform application for tracking Quran memorization using a spaced repetition system. The app helps you follow a 7-station review schedule based on memory retention principles.
 
-This project uses a **"Write Once, Sync Everywhere"** architecture to maintain a unified codebase across all platforms.
+It is available as:
+- **PWA (Progressive Web App)** for any browser.
+- **Chrome Extension** for desktop workflow.
+- **Firefox Add-on** for privacy-focused browsing.
+- **Android App** for mobile experience.
 
-### 1. The Core (`/core`)
-The **Single Source of Truth**. All business logic, CSS design systems, Quranic data, and UI components live here.
-- **`/core/js/adapter`**: Unified abstractions for Storage, Notifications, and Environment detection.
-- **`/core/js/logic`**: Core reminder and history management.
-- **`/core/js/renderer`**: The Mushaf-style rendering engine.
+## What It Does
 
-### 2. The Wrappers
-- **`/chrome` & `/firefox`**: Extension shells using Manifest V3/V2.
-- **`/www`**: The web host for the PWA and Capacitor.
-- **`/android`**: The native Android wrapper powered by Capacitor.
+The application tracks your daily memorization tasks and automatically schedules reviews at specific intervals. Each unit you memorize goes through 7 review stations over approximately 55 days, helping move content from short-term to long-term memory.
 
----
+## Architecture: "Write Once, Sync Everywhere"
 
-## 🚀 Development Workflow
+This project uses a unified codebase located in `core/`.
+- **`core/`**: Contains all logic (`js`), structure (`html` logic), styles (`css`), and assets.
+- **`chrome/`, `firefox/`, `www/`**: Platform wrappers that receive code from `core/`.
+- **`scripts/`**: Build and synchronization tooling.
 
-To ensure changes are propagated correctly across all platforms, follow this workflow:
+For a detailed deep-dive on the architecture and how to replicate it, read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [agent/abstract.md](agent/abstract.md).
 
-### 1. Setup
-```bash
-git clone https://github.com/hadealahmad/WirdReminder.git
-npm install
-```
+## Getting Started (Development)
 
-### 2. Modifying Code
-**NEVER** edit files inside `chrome/src/core`, `firefox/src/core`, or `www/core` directly. These are generated copies. Always edit the files in the root **`/core`** directory.
+### Prerequisites
+- Node.js (v18+)
+- NPM
+- (Optional) Android SDK for mobile builds
 
-### 3. Synchronizing Changes
-After making changes to the core or assets, run:
-```bash
-npm run sync
-```
-This script propagates your core changes to all platform-specific source directories.
-
-### 4. Building Artifacts
-To generate production-ready packages for all platforms:
+### One-Command Build
+To build the project for **ALL** platforms at once:
 ```bash
 npm run build
 ```
-This will create a `/build` directory containing:
-- Chrome & Firefox Extension Zips
-- Android APK (Debug)
-- Android AAB (Release)
+This command will:
+1. Sync the version numbers across all manifests and config files.
+2. Sync the `core/` code to all platform directories.
+3. Package the Chrome Extension (`build/chrome-x.x.x.zip`).
+4. Package the Firefox Extension (`build/firefox-x.x.x.zip`).
+5. Sync the Android Capacitor project and build the APK (`android/app/build/outputs/apk/debug/app-debug.apk`).
 
----
-
-## 🧪 Testing Guidelines
-
-### Extension Testing
-1. Run `npm run sync`.
-2. **Chrome**: Load `chrome/` (unpacked) via `chrome://extensions`.
-3. **Firefox**: Load `firefox/manifest.json` via `about:debugging`.
-
-### Web/PWA Testing
-1. Run `npm run sync`.
-2. Serve the `www/` directory using any local server (e.g., `npx serve www`).
-
-### Android Testing
-1. Ensure `ANDROID_HOME` is set.
-2. Run:
+### Running the Android App
+To launch the Android emulator without opening Android Studio:
 ```bash
-npm run android:refresh
+npm run android:run
 ```
-This will sync the latest web code into the Android project and launch it on your connected device/emulator.
+*Note: Ensure `ANDROID_HOME` is set in your environment or editing the script.*
 
----
+## Project Structure
 
-## 🛠️ Updating Guidelines
+```
+/
+├── core/                  # SINGLE SOURCE OF TRUTH (Edit code here!)
+│   ├── js/                # Shared Logic & Adapters
+│   ├── css/               # Shared Styles
+│   └── assets/            # Shared Icons
+├── chrome/                # Chrome Extension Wrapper
+├── firefox/               # Firefox Extension Wrapper
+├── www/                   # Web/PWA Wrapper
+├── android/               # Native Android Project (Capacitor)
+└── scripts/               # Automation Scripts
+```
 
-### 1. Versioning
-We use `scripts/version-sync.js`. To update the project version:
-1. Update `"version"` in the root `package.json`.
-2. Run `npm run build` (or just `npm version <new_version>`). The script will automatically update all manifest files (`chrome`, `firefox`, `www`, `capacitor.config`).
+## Features
 
-### 2. Platform Adapters
-When adding new platform-specific features (like a new storage engine), update the adapters in `core/js/adapter/`. This ensures the logic remains identical while the implementation adapts to the environment.
+- **7-station spaced repetition algorithm**
+- **Cross-Platform**: Seamless experience on Mobile, Web, and Desktop.
+- **Offline First**: Works fully offline via Service Workers and Local Storage.
+- **Cloud-Free**: Your data stays on your device (LocalStorage / Chrome Storage).
+- **Native Android Feel**: Hardware back button support and native notifications.
+- **Quran API Integration**: Fetches metadata for intuitive setup.
+- **Data Export/Import**: JSON-based backup system.
 
-### 3. Dependencies
-- **Android**: Requires **JDK 17, 21, or 25**.
-- **Build Tools**: Uses Gradle 9.2.1 and AGP 8.13.0.
+## Algorithm Credits
 
----
+This application implements the **7-Station Spaced Repetition Algorithm** for Quran memorization, developed by **Dr. Wafaa Orabi** (د. وفاء عرابي).
 
-## 🤝 Contribution
+The algorithm is based on scientific principles of memory retention, specifically the **Forgetting Curve** discovered by Hermann Ebbinghaus. Instead of mass repetition (cramming), the system uses spaced repetition at calculated intervals to move content from short-term to long-term memory through 7 review stations over approximately one month.
 
-We welcome any humble contributions to this project. Whether it's a bug fix, a new feature, or an improvement to the Arabic translations, feel free to open a Pull Request. Always ensure your changes are made in the `/core` directory and that you've run `npm run sync` before submitting.
+Each station represents a calculated timing for repetition to enhance permanent memorization: repeating the text several hours after the initial memorization, then reviews after days and weeks. This transfers information from short-term to long-term memory, utilizing the forgetting curve and effective repetitive learning techniques.
+
+📞 **Contact**: [Dr. Wafaa Orabi's Telegram Channel](https://t.me/wafaa_oraby_coach)
+
+## Documentation
+
+Detailed documentation is available in the `docs/` folder:
+
+- [Architecture](docs/ARCHITECTURE.md) - Deep dive into structure and sync logic.
+- [Abstract for AI Agents](agent/abstract.md) - High-level conceptual guide for replicating this architecture.
+- [User Guide](docs/USER_GUIDE.md) - How to use the application.
+- [Development Guide](docs/DEVELOPMENT.md) - For contributors.
+- [Memorization Rules](docs/MemorizationRules.md) - Algorithm methodology.
+
+## License
+
+MIT License

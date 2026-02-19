@@ -1,31 +1,33 @@
 {
   "manifest_version": 3,
-  "name": "مذكّر الورد اليومي",
-  "version": "1.1.1",
-  "description": "مُذكِّر الوِرد اليومي - يساعدك على المداومة على ورد القرآن اليومي مع تذكيرات ذكية وعرض جميل للآيات. مجاني وبدون إعلانات.",
-  "permissions": [
-    "alarms",
-    "storage",
-    "notifications"
-  ],
-  "host_permissions": [
-    "https://api.quran.com/*"
-  ],
-  "background": {
-    "service_worker": "src/background/background.js",
-    "type": "module"
-  },
+  "name": "__MSG_extensionName__",
+  "short_name": "Monthly Quran",
+  "version": "1.5.2",
+  "description": "__MSG_extensionDescription__",
   "action": {
     "default_popup": "src/popup/popup.html",
     "default_icon": {
-      "16": "src/core/assets/icons/icon16.png",
-      "48": "src/core/assets/icons/icon48.png",
-      "128": "src/core/assets/icons/icon128.png"
-    }
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    },
+    "default_title": "Monthly Quran"
   },
   "icons": {
-    "16": "src/core/assets/icons/icon16.png",
-    "48": "src/core/assets/icons/icon48.png",
-    "128": "src/core/assets/icons/icon128.png"
-  }
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://api.alquran.cloud/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; font-src 'self' https://fonts.gstatic.com;"
+  },
+  "default_locale": "en"
 }
