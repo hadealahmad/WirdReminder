@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
-import { copyFileSync, cpSync } from 'fs';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+import { copyFileSync, cpSync } from 'fs'
 
 export default defineConfig({
   plugins: [
@@ -10,12 +10,12 @@ export default defineConfig({
       name: 'copy-assets',
       closeBundle() {
         // Copy core folder
-        cpSync('www/core', 'www/dist/core', { recursive: true });
+        cpSync('www/core', 'www/dist/core', { recursive: true })
         // Copy other necessary files
-        copyFileSync('www/sw.js', 'www/dist/sw.js');
-        copyFileSync('www/app.js', 'www/dist/app.js');
-      }
-    }
+        copyFileSync('www/sw.js', 'www/dist/sw.js')
+        copyFileSync('www/app.js', 'www/dist/app.js')
+      },
+    },
   ],
   base: './',
   root: 'www',
@@ -31,4 +31,4 @@ export default defineConfig({
   server: {
     open: true,
   },
-});
+})
