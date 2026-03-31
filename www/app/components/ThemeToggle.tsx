@@ -3,6 +3,18 @@ import { Sun, Moon } from 'lucide-react';
 import { Button } from './ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const THEME_COLORS = {
+  light: '#10b981',
+  dark: '#065f46',
+};
+
+function updateMetaThemeColor(theme: 'light' | 'dark') {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) {
+    meta.setAttribute('content', THEME_COLORS[theme]);
+  }
+}
+
 export function ThemeToggle() {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window !== 'undefined') {
@@ -17,11 +29,11 @@ export function ThemeToggle() {
     const root = window.document.documentElement;
     if (theme === 'dark') {
       root.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
     } else {
       root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
     }
+    localStorage.setItem('theme', theme);
+    updateMetaThemeColor(theme);
   }, [theme]);
 
   const toggleTheme = () => {
