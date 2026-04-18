@@ -12,8 +12,18 @@ export function Navigation() {
     i18n.changeLanguage(nextLng);
   };
 
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      const navHeight = 80;
+      const top = el.getBoundingClientRect().top + window.scrollY - navHeight;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <motion.nav 
+    <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
@@ -24,15 +34,15 @@ export function Navigation() {
           <img src="assets/icons/icon48.png" alt="Wird Logo" className="w-10 h-10 rounded-xl shadow-lg" />
           <span className="text-xl font-bold text-gray-900 dark:text-white">{t('nav.brand')}</span>
         </div>
-        
+
         <div className="hidden md:flex items-center gap-8">
-          <a href="#features" className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium">
+          <a href="#features" onClick={(e) => scrollToSection(e, 'features')} className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium">
             {t('nav.features')}
           </a>
-          <a href="#screenshots" className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium">
+          <a href="#screenshots" onClick={(e) => scrollToSection(e, 'screenshots')} className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium">
             {t('nav.screenshots')}
           </a>
-          <a href="#download" className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium">
+          <a href="#download" onClick={(e) => scrollToSection(e, 'download')} className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium">
             {t('nav.download')}
           </a>
         </div>
