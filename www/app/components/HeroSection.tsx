@@ -29,9 +29,9 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-center lg:text-start"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100/50 rounded-full mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100/50 dark:bg-emerald-900/30 rounded-full mb-6">
               <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-              <span className="text-sm text-emerald-700 dark:text-white font-medium">{t('hero.badge')}</span>
+              <span className="text-sm text-emerald-700 dark:text-emerald-300 font-medium">{t('hero.badge')}</span>
             </div>
             
             <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
@@ -79,7 +79,7 @@ export function HeroSection() {
               </div>
             </div>
             
-            <div className="mt-10 flex items-center gap-8 text-sm text-gray-500 justify-center lg:justify-start">
+            <div className="mt-10 flex items-center gap-8 text-sm text-gray-500 dark:text-gray-400 justify-center lg:justify-start">
               <div className="flex items-center gap-2 font-medium">
                 <svg className="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />

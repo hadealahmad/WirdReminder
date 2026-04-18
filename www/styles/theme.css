@@ -128,9 +128,18 @@
     @apply border-border outline-ring/50;
   }
 
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Tajawal', 'Amiri', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   /* Hide scrollbar for screenshots carousel */
