@@ -1,0 +1,64 @@
+/* This commit introduces the Light/Dark mode color system */
+/* Light Mode Colors I am going to use: */
+/* main_background : #f2f2f2  */
+/* main_foreground : #031811 */
+/* main_primary    : #0F6D4F */
+
+/* Each color has three opacity levels: 10%, 30%, 60% */
+
+/* Dark Mode is prepared by flipping background and foreground colors */
+/* Dark background : #031811 */
+/* Dark foreground : #f2f2f2 */
+/* main_primary remains #41af8c */
+
+/* These colors are inspired by https://community.itqan.dev */
+/* I am not going to delete shadcn colors to maintain UI compatibility */
+
+/* This setup allows consistent colors, flexible opacity, and easy Light/Dark mode handling */
+
+:root {
+  --main-background: #f2f2f2;
+  --main-background-10: #f2f2f21a;
+  --main-background-30: #f2f2f24d;
+  --main-background-60: #f2f2f299;
+
+  --main-background-light: #fbfbfb;
+  --main-background-light-10: #fbfbfb1a;
+  --main-background-dark: #dcdedd;
+
+  --main-foreground: #031811;
+  --main-foreground-10: #0318111a;
+  --main-foreground-30: #0318114d;
+  --main-foreground-60: #03181199;
+
+  --main-primary: #0f6d4f;
+  --main-primary-10: #0f6d4f1a;
+  --main-primary-30: #0f6d4f4d;
+  --main-primary-60: #0f6d4f99;
+
+  --main-background-red: #e53935;
+  --main-foreground-red: #ffecec;
+}
+
+.dark {
+  --main-background: #031811;
+  --main-background-10: #0318111a;
+  --main-background-30: #0318114d;
+  --main-background-60: #03181199;
+
+  --main-background-light: #142721;
+  --main-background-dark: #01100a;
+
+  --main-foreground: #f2f2f2;
+  --main-foreground-10: #f2f2f21a;
+  --main-foreground-30: #f2f2f24d;
+  --main-foreground-60: #f2f2f299;
+
+  --main-primary: #41af8c;
+  --main-primary-10: #41af8c1a;
+  --main-primary-30: #41af8c4d;
+  --main-primary-60: #41af8c99;
+
+  --main-background-red: #b71c1c;
+  --main-foreground-red: #ffebee;
+}

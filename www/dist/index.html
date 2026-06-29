@@ -20,13 +20,28 @@
 
     <!-- Base Styles (React/Tailwind) are handled by main.tsx -->
     <!-- Legacy Styles (App only) -->
-    <link rel="stylesheet" href="./assets/styles-DELC1oQN.css" id="legacy-styles" disabled>
+    <link rel="stylesheet" href="./assets/styles-6i67dxcF.css" id="legacy-styles" disabled>
+
+    <!-- Dark mode: restore theme before first paint to prevent FOUC -->
+    <script>
+      (function() {
+        var theme = localStorage.getItem('theme');
+        var isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        }
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) {
+          meta.setAttribute('content', isDark ? '#065f46' : '#10b981');
+        }
+      })();
+    </script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="./assets/icon48-x2_x6IHH.png">
 
     <!-- PWA -->
-    <link rel="manifest" href="./assets/manifest-DAXes_Sp.json">
+    <link rel="manifest" href="./assets/manifest-DJD_L7ce.json">
     <meta name="theme-color" content="#10b981">
     <link rel="apple-touch-icon" href="./assets/icon128-jlXxILU3.png">
 
@@ -58,8 +73,8 @@
             min-height: 100vh;
         }
     </style>
-  <script type="module" crossorigin src="./assets/index-Br451Dap.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CKswAgTE.css">
+  <script type="module" crossorigin src="./assets/index-CSJe1-Ok.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DQOc-ay9.css">
 </head>
 
 <body>
@@ -203,6 +218,10 @@
                         style="background-color: hsl(var(--destructive)); color: white;">
                         ⚠️ إعادة ضبط الإضافة
                     </button>
+                </div>
+
+                <div style="display: flex; justify-content: center; margin-top: 2rem;">
+                    <a href="https://community.itqan.dev/d/180" target="_blank" style="display:inline-flex;border-radius:3px;overflow:hidden;font-size:11px;font-family:monospace;height:20px;line-height:20px;text-decoration:none;"><span style="background:#10b981;color:#fff;padding:0 8px;font-weight:bold;">itqan</span><span style="background:#f1f5f9;color:#0f172a;padding:0 8px;">ناقش</span></a>
                 </div>
             </section>
 
@@ -354,9 +373,9 @@
         }
     </script>
     
-    <!-- React Entry (Landing Page) -->
+    <!-- React Entry (Landing Page) -->
     
-    <!-- Extension Logic (Android App / Browser Popup) -->
+    <!-- Extension Logic (Android App / Browser Popup) -->
 
     <!-- SW Registration (Web only) -->
     <script>

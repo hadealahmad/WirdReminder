@@ -1,104 +1,123 @@
 .app-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow-y: auto;
+
+  /* padding-bottom: calc(var(--space-1) + var(--height-tabbar)); */
 }
 
 header {
-    padding: var(--header-padding);
-    border-bottom: 1px solid hsl(var(--border));
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-0_75) var(--space-1);
+  border-bottom: 1px solid var(--main-foreground-10);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--main-background-light);
 }
 
 header h1 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    color: hsl(var(--foreground));
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--main-foreground);
 }
 
+.space-bottom {
+  height: calc(var(--space-1) + var(--height-tabbar));
+}
 .content {
-    flex: 1;
-    overflow-y: auto;
-    padding: var(--container-padding);
+  padding: var(--space-1_75);
+  margin-top: 60px; 
+  overflow-y: auto;
 }
 
 /* Tabs - Inline pill style (extension popup) */
 .tabs-nav {
-    display: flex;
-    height: 2.75rem;
-    align-items: center;
-    border-radius: var(--radius);
-    background-color: hsl(var(--muted));
-    padding: var(--space-1);
-    margin: var(--tabs-margin);
-    width: calc(100% - (var(--container-padding) * 2));
-    flex-shrink: 0;
-    margin-left: auto;
-    margin-right: auto;
+  position: fixed;
+  z-index: 9999;
+  bottom: var(--space-1);
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  height: var(--height-tabbar);
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--main-foreground-10);
+  flex-shrink: 0;
+  margin-left: auto;
+  margin-right: auto;
+  gap: var(--space-0_25);
+  padding: var(--space-0_25);
+
+  background-color: var(--main-background-light-10);
+  backdrop-filter: blur(var(--blur-md));
+  -webkit-backdrop-filter: blur(--blur-md); /* Safari */
+  /* border-top: 1px solid rgba(255, 255, 255, 0.2); */
 }
 
 .bottom-tabs {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: calc(4.5rem + env(safe-area-inset-bottom));
-    display: flex !important;
-    align-items: center;
-    justify-content: space-around;
-    background-color: hsla(var(--background), 0.82);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid hsl(var(--border));
-    padding-bottom: env(safe-area-inset-bottom);
-    margin: 0;
-    z-index: 100;
-    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: calc(4.5rem + env(safe-area-inset-bottom));
+  display: flex !important;
+  align-items: center;
+  justify-content: space-around;
+  background-color: hsla(var(--background), 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--main-foreground-10);
+  padding-bottom: env(safe-area-inset-bottom);
+  margin: 0;
+  z-index: 100;
 }
 
 .tab-trigger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    border-radius: calc(var(--radius) - 2px);
-    padding: var(--space-2) var(--space-4);
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    color: hsl(var(--muted-foreground));
-    flex: 1;
-    font-family: inherit;
-    -webkit-tap-highlight-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--main-foreground);
+  flex: 1;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
 
-    transition:
-        background-color var(--dur),
-        color var(--dur),
-        box-shadow var(--dur),
-        transform var(--dur-fast);
+  transition:
+    background-color var(--dur),
+    color var(--dur),
+    box-shadow var(--dur),
+    transform var(--dur-fast);
 }
 
 .tab-trigger:hover {
-    color: hsl(var(--foreground));
+  color: var(--main-foreground);
+  background-color: var(--main-primary-10);
 }
 
 .tab-trigger.active {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  background-color: var(--main-primary);
+  color: var(--main-background);
 }
 
 .tab-content {
-    display: none;
+  display: none;
 }
 
 .tab-content.active {
-    display: block;
+  display: block;
 }

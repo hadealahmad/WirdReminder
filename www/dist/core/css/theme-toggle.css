@@ -9,19 +9,19 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
+    width: var(--height-btn-onlyicon);
+    height: var(--height-btn-onlyicon);
     border-radius: 9999px;
     border: none;
     background-color: transparent;
-    color: hsl(var(--foreground));
+    color: var(--main-foreground);
     cursor: pointer;
     transition: background-color var(--dur), transform var(--dur-fast);
     padding: 0;
 }
 
 .theme-toggle-btn:hover {
-    background-color: hsl(var(--accent));
+    background-color: var(--main-primary-10);
     transform: scale(1.05);
 }
 
@@ -30,7 +30,7 @@
 }
 
 .theme-toggle-btn:focus-visible {
-    outline: 2px solid hsl(var(--ring));
+    outline: 2px solid var(--main-primary-10);
     outline-offset: 2px;
 }
 
@@ -41,12 +41,8 @@
 }
 
 /* Icon animations */
-.theme-toggle-btn .theme-icon-sun {
-    color: #f59e0b;
-}
-
-.theme-toggle-btn .theme-icon-moon {
-    color: #818cf8;
+.theme-toggle-btn {
+    color: var(--main-primary);
 }
 
 /* Hide/Show based on theme */

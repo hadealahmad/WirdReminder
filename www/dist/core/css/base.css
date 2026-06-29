@@ -1,144 +1,178 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap");
 
 :root {
-    /* Shadcn Colors */
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+  /* Shadcn Colors */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
 
-    /* Semantic Colors */
-    --quran-green: 142.1 76.2% 36.3%;
+  /* Semantic Colors */
+  --quran-green: 142.1 76.2% 36.3%;
 
-    /* Semantic Spacing */
-    --container-padding: 1.25rem;
-    --section-gap: 1.5rem;
-    --card-padding: 1rem;
-    --card-gap: 0.75rem;
-    --input-gap: 1rem;
-    --header-padding: 1rem 1.25rem;
-    --tabs-margin: 1rem 1.25rem 0.5rem;
+  /* Semantic Spacing */
+  --container-padding: 1.25rem;
+  --section-gap: 1.5rem;
+  --card-padding: 1rem;
+  --card-gap: 0.75rem;
+  --input-gap: 1rem;
+  --header-padding: 1rem 1.25rem;
+  --tabs-margin: 1rem 1.25rem 0.5rem;
 
-    /* Shadows (token-first) */
-    --shadow-sm: 0 1px 2px hsl(var(--foreground) / 0.06);
-    --shadow-md: 0 10px 20px hsl(var(--foreground) / 0.12);
-    --shadow-lg: 0 20px 25px hsl(var(--foreground) / 0.12), 0 10px 10px hsl(var(--foreground) / 0.06);
+  /* Shadows (token-first) */
+  --shadow-sm: 0 1px 2px hsl(var(--foreground) / 0.06);
+  --shadow-md: 0 10px 20px hsl(var(--foreground) / 0.12);
+  --shadow-lg:
+    0 20px 25px hsl(var(--foreground) / 0.12),
+    0 10px 10px hsl(var(--foreground) / 0.06);
 
-    /* Overlay (modal) */
-    --overlay: 222.2 84% 4.9%;
+  /* Overlay (modal) */
+  --overlay: 222.2 84% 4.9%;
 
-    /* Motion */
-    --dur-fast: 150ms;
-    --dur: 200ms;
-    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Motion */
+  --dur-fast: 150ms;
+  --dur: 200ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
-    /* Spacing tiny (calendar gap) */
-    --space-1: 0.25rem; /* 4px */
-    --space-2: 0.5rem;  /* 8px */
+  /* Spacing tiny (calendar gap) */
+  /* --space-1: 0.25rem; 4px */
+  /* --space-2: 0.5rem; 8px */
+  /* --space-3: 0.75rem; 12px */
+  /* --space-4: 1rem; 16px */
+  /* --space-5: 1.5rem; 24px */
 
-    --space-3: 0.75rem; /* 12px */
-    --space-4: 1rem;    /* 16px */
-    --space-5: 1.5rem;  /* 24px */
+  --space-0_25: 0.25rem;
+  --space-0_5: 0.5rem;
+  --space-0_75: 0.75rem;
+  --space-1: 1rem;
+  --space-1_25: 1.25rem;
+  --space-1_5: 1.5rem;
+  --space-1_75: 1.75rem;
 
+  --height-btn: 2rem;
+  --height-btn-onlyicon: 2rem; /*width = height*/
+
+  --height-switch: 1.25;
+  --width-switch: 2.25rem;
+  --size-switch-thumb: 1rem;
+
+  --height-checkbox: 1.25rem;
+
+  --height-tabbar: 2.75rem;
+
+  --blur-sm: 6px;
+  --blur-md: 6px;
 }
 
 /* Dark Mode Variables */
 .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 221.2 83.2% 53.3%;
-    
-    /* Semantic Colors - Dark Mode */
-    --quran-green: 142.1 70.6% 45.3%;
-    
-    /* Overlay (modal) */
-    --overlay: 210 40% 98%;
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 221.2 83.2% 53.3%;
+
+  /* Semantic Colors - Dark Mode */
+  --quran-green: 142.1 70.6% 45.3%;
+
+  /* Overlay (modal) */
+  --overlay: 210 40% 98%;
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+/* ===============================
+   Base Styling
+   =============================== */
 body {
-    font-family: 'Inter', 'Tajawal', sans-serif;
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-    width: 380px;
-    height: 600px;
-    overflow: hidden;
-    -webkit-font-smoothing: antialiased;
+  font-family: "Inter", "Tajawal", sans-serif;
+  background-color: var(--main-background);
+  color: var(--main-foreground);
+  width: 480px;
+  height: 780px;
+  margin: 0;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
 }
+/* ===============================
+   Circular Hover Scrollbar
+   =============================== */
 
-/* Scrollbar Styling */
+/* Default scrollbar hidden, thin & circular */
+/* *::-webkit-scrollbar { */
+/* width: 8px; */
+/* height: 8px; */
+/* background: transparent;  */
+/* }
+*::-webkit-scrollbar-button {
+  background: var(--main-background);
+} */
+
+/* Thumb styling - small circle, invisible by default */
+/* *::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+} */
+
+/* Show scrollbar thumb on hover over scrollable element */
+/* *:hover::-webkit-scrollbar-thumb {
+  background-color: var(--main-primary-30);
+  border: 2px solid var(--main-background);
+} */
+
+/* Thumb hover effect - primary stronger */
+/* *:hover::-webkit-scrollbar-thumb:hover {
+  background-color: var(--main-primary-30);
+  border: 2px solid var(--main-background);
+} */
+
+/* Firefox scrollbar */
 * {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(215 16% 47%) hsl(var(--background));
+  scrollbar-width: thin;
+  scrollbar-color: var(--main-primary-30) transparent;
 }
 
-/* Webkit Scrollbar (Chrome, Safari, Edge) */
 *::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+  display: none;
 }
 
-*::-webkit-scrollbar-track {
-    background: hsl(210 40% 96%);
-}
-
-*::-webkit-scrollbar-thumb {
-    background-color: hsl(215 16% 47%);
-    border-radius: 4px;
-    border: 2px solid hsl(210 40% 96%);
-}
-
-*::-webkit-scrollbar-thumb:hover {
-    background-color: hsl(215 16% 35%);
-}
-
-/* Dark Mode Scrollbar */
-.dark *::-webkit-scrollbar-track {
-    background: hsl(var(--background));
-}
-
-.dark *::-webkit-scrollbar-thumb {
-    background-color: hsl(217.2 32.6% 25%);
-    border: 2px solid hsl(var(--background));
-}
-
-.dark *::-webkit-scrollbar-thumb:hover {
-    background-color: hsl(217.2 32.6% 35%);
+/* Firefox */
+* {
+  scrollbar-width: none;
 }

@@ -47,18 +47,20 @@ export const themeManager = {
     applyTheme(theme) {
         const root = document.documentElement;
         const body = document.body;
-        
+
         if (theme === 'dark') {
             root.classList.add(DARK_CLASS);
             if (body) body.classList.add(DARK_CLASS);
-            console.log('Dark theme applied');
         } else {
             root.classList.remove(DARK_CLASS);
             if (body) body.classList.remove(DARK_CLASS);
-            console.log('Light theme applied');
         }
 
-        // Update native status bar style on Capacitor
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) {
+            meta.setAttribute('content', theme === 'dark' ? '#065f46' : '#10b981');
+        }
+
         this._updateSystemBars(theme);
     },
 
